@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<!--
+      Google Map API doc
+      https://developers.google.com/maps/documentation/javascript/drawinglayer
+
+    my app key: "AIzaSyArMJYYmw59NfMXDBI0fDElWQClR_T8rkY"
+
+
+-->
+
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+
+
+    <script>
+
+        var locations = [
+       { lat: 53.538753, lng: -113.506578 },
+       { lat: 53.540347, lng: -113.504786 },
+       { lat: 53.402027, lng: -113.526100}
+
+        ];
+
+        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    </script>
+
+    <script>
+
+        var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+        var icons = {
+            parking: {
+                icon: 'https://www.google.ca/images/branding/googlelogo/2x/googlelogo_color_120x44dp.png'
+            },
+            library: {
+                icon: iconBase + 'library_maps.png'
+            },
+            info: {
+                icon: iconBase + 'info-i_maps.png'
+            }
+        };
+
+
+        var par_google_map = {
+            center: { 
+                    lat: 53.533193, lng: -113.506235 
+            },
+            zoom: 17
+            //, mapTypeId: 'roadmap'
+        };
+
+
+
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), par_google_map);
+        
+            var marker = new google.maps.Marker({
+                position: par_google_map.center,
+                label: 'O',
+                title: 'office',
+                map: map
+            });
+
+
+            var markers = locations.map(function (location, i) {
+                return new google.maps.Marker({
+                    position: location,
+                    label: labels[i % labels.length],
+                    map: map,
+                    icon: icons['parking'].icon
+                });
+            });
+
+            showCurrentLoc(map);
+
+        }
+    
+        //https://developers.google.com/maps/documentation/javascript/geolocation
+        function showCurrentLoc(map) {
+
+            var infoWindow = new google.maps.InfoWindow;
+
+            // Try HTML5 geolocation.
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+/*
+                    infoWindow.setPosition(pos);
+                    //infoWindow.setContent('Location found.');
+                    infoWindow.setContent('<a href="#">X<a>');
+                    infoWindow.open(map);
+                    */
+
+                    new google.maps.Marker({
+                        position: pos,
+                        label: 'C',
+                        title: 'I am here',
+                        map: map
+                    });
+
+                    map.setCenter(pos);
+                }, function () {
+                    handleLocationError(true, infoWindow, map.getCenter());
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+            }
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+            infoWindow.setPosition(pos);
+            infoWindow.setContent(browserHasGeolocation ?
+                                  'Error: The Geolocation service failed.' :
+                                  'Error: Your browser doesn\'t support geolocation.');
+            infoWindow.open(map);
+        }
+
+
+    </script>
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyArMJYYmw59NfMXDBI0fDElWQClR_T8rkY&callback=initMap">
+    </script>
+</head>
+<body>
+  
+
+    <div id="map"></div>
+    <div>
+
+        <h2>the design goal
+        </h2>
+        <p>
+            create and display a local area marked with interesting sites. 
+            when I walk I can realize where I am and what interesting sites that I have market are nearby.
+            this can be used in touring a site, e.g. in Banff.
+            I will mark sites according to maps and descriptions provided by the info center, and then start the journey.
+            Or touring a campus etc.
+
+
+
+        </p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+Shi JavaScript:<br><br>
+<script>
+
+function mm(
+	_w=5,
+ 	_sp=0, 
+    _ep=0,
+   	_abt=0){
+    
+    this.act=function(t, l, h){
+    	if(t>_w) 
+        	return 'NA';
+            
+		if(t <= _w && l < _abt){
+			return 'sell';
+		}
+        
+		if(t <= _w && h >= _ep){
+			return 'win';
+		}
+        
+        return 'continu';
+    };
+    
+    this.trn=function(d){
+    	;
+
+		return [_w, _sp, _ep, _abt];
+    };
+};
+
+//alert((new mm(5,10,11,9.5)).act(6,9,11));
+
+var a_mm = new mm().trn(d);
+alert(a_mm);
+
+a_mm().act(); 
+
+
+
+</script>

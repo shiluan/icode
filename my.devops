@@ -1,0 +1,21 @@
+
+REM ###################
+REM execute sql script
+REM ###################
+sqlcmd -S myServer\instanceName -i C:\myScript.sql
+
+
+REM ###################
+REM build/compile .net projects/solutions
+REM ###################
+REM csc works per .cs
+REM C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\devenv.exe, /rebuild
+devenv "mySolution.sln" /build Debug 
+
+REM ###################
+REM get latest code from TFS
+REM ###################
+REM C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\tf.exe
+REM cd\solution.folder|project.folder, where contained in a TFS workspace mapping, then get files for the folder.
+tf get
+

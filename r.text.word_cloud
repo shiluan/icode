@@ -1,0 +1,19 @@
+/*
+* PlayAt::
+* https://campus.datacamp.com/courses/data-visualization-in-r/a-quick-introduction-to-base-r-graphics?ex=7
+*/
+
+require(wordcloud)
+require(RColorBrewer)
+
+#require(XML)
+
+#require(tm)
+
+my.words.ets <- c('ETS','Agreement', 'Assignment', 'OASIS', 'Continuation', 'Surrender', 'Transfer', 'Land', 'Mineral', 'Bidding', 'Request', 'Offset', 'ExhibitA', 'Document', 'FMT', 'Posting', 'Concurrence')
+my.words.ets.weight <- c(5, 3, 3, 2, 2, 1, 2,2,2,2,2,2, 3,2,1,2,2 )
+my.f = data.frame(word=my.words.ets, weight=my.words.ets.weight)
+
+pal2 <- brewer.pal(8,"Dark2")
+wordcloud(my.f$word,my.f$weight, scale=c(8,.2),min.freq=1, max.words=Inf, random.order=FALSE, rot.per=.15, colors=pal2)
+

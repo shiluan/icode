@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!--
+    
+    to calcualate and show the rend
+-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <!--##
+        Requires
+    ##-->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://jqueryui.com/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <!--<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+
+    <script>
+
+        $(document).ready(function () {
+            $('#tolerance_ratio').change(function () {
+
+                $('#tolerance_ratio_lbl').html(this.value);
+
+            });
+
+            $('#exp_yr_ratio').change(function () {
+
+                $('#exp_yr_ratio_lbl').html(this.value);
+
+            });
+
+
+            $("#btn_calc").click(function () {
+
+                /*
+                buy_in_date_iso = '2017-05-08' //iso
+                buy_in_date = new Date(buy_in_date_iso);
+                buy_in_price = 10.00;
+                exp_yr_ratio = 0.1; //10% 
+                tolerance = 0.05; //5%
+                */
+
+                buy_in_date_iso = new Date($('#buy_date').val()).toISOString().substring(0, 10);
+                buy_in_date = new Date(buy_in_date_iso);
+                buy_in_price = parseInt($('#buy_price_dollar').val()) + parseFloat($('#buy_price_cents').val());
+                exp_yr_ratio = parseFloat($('#exp_yr_ratio').val());
+                tolerance_ratio = parseFloat($('#tolerance_ratio').val());
+
+
+                today_date_iso = new Date().toISOString().substring(0, 10);
+                today_date = new Date(today_date_iso);
+
+                p = must_sell(today_date, buy_in_date, buy_in_price, exp_yr_ratio, tolerance_ratio);
+                p0 = Math.ceil(p[0] * 100) / 100;
+                p1 = Math.ceil(p[1] * 100) / 100;
+                p2 = Math.ceil(p[2] * 100) / 100;
+
+
+                $('#msg').html('');
+
+                $('#msg').html($('#msg').html() + '<br/>buy_in_date:' + buy_in_date_iso);
+                $('#msg').html($('#msg').html() + '<br/>buy_in_price:' + buy_in_price.toFixed(2));
+                $('#msg').html($('#msg').html() + '<br/>exp_yr_ratio:' + exp_yr_ratio.toFixed(2));
+                $('#msg').html($('#msg').html() + '<br/>tolerance:' + tolerance_ratio.toFixed(2));
+
+                $('#msg').html($('#msg').html() + '<br/>');
+
+                $('#msg').html($('#msg').html() + '<br/>today_date:' + today_date_iso);
+                $('#msg').html($('#msg').html() + '<br/>age_days:' + p[3]);
+                $('#msg').html($('#msg').html() + '<br/>expected:' + p0.toFixed(2));
+                $('#msg').html($('#msg').html() + '<br/>cut_off:' + p1.toFixed(2));
+                $('#msg').html($('#msg').html() + '<br/>up_edge:' + p2.toFixed(2));
+
+            });
+
+        });
+
+
+
+        function date_diff_days(d2, d1) {
+            var t2 = d2.getTime();
+            var t1 = d1.getTime();
+
+            return parseInt((t2-t1)/(24*3600*1000));
+        }
+
+        function must_sell(today_date, buy_in_date, buy_in_price, exp_yr_ratio, tolerance) {
+            /*
+            e.g.:
+                buy_in_date = '2017-06-01', 
+                buy_in_price = '10.20', 
+                exp_yr_ratio = 0.1, //10% 
+                tolerance = 0.05 //5%
+            */
+
+            var days = date_diff_days(today_date, buy_in_date);
+
+            price_bottom = buy_in_price * (1 + days / 356 * exp_yr_ratio) * (1 - tolerance);
+            price_up = buy_in_price * (1 + days / 356 * exp_yr_ratio) * (1 + tolerance);
+            price_exp = buy_in_price * (1 + days / 356 * exp_yr_ratio);
+
+            //price_bottom = 10;
+            return [price_exp, price_bottom, price_up, days];
+        }
+
+
+    </script>
+
+</head>
+<body>
+   
+
+    <div class="container">
+        <p></p>
+        <div>
+            buy_in_date: <input type="date" id="buy_date">
+        </div>
+        <div>
+            buy_in_price: 
+            <input type="number" step="1" min="0" max="1000" id="buy_price_dollar">.
+            <input type="number" step="0.01" min="0" max ="0.99" id="buy_price_cents">
+        </div>
+        <div>
+            exp_yr_ratio: <input type="range" id="exp_yr_ratio" min="0.10" max="4.0" step="0.05"><em id="exp_yr_ratio_lbl"></em>
+        </div>
+        <div>
+            tolerance_ratio: <input type="range" id="tolerance_ratio" min="0.05" max="0.50" step="0.05"><em id="tolerance_ratio_lbl"></em>
+        </div>
+        <div><input type="button" id="btn_calc" value ="Calculate" /> </div>
+
+        <hr />
+
+        <div id="msg"></div>
+
+
+
+    </div>
+</body>
+</html>
