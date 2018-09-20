@@ -1,0 +1,37 @@
+# data from:
+# https://en.wikipedia.org/wiki/Logistic_regression
+
+x=[0.50,0.75,1.00,1.25,1.50,1.75,1.75,2.00,2.25,2.50,2.75,3.00,3.25,3.50,4.00,4.25,4.50,4.75,5.00,5.50]
+y=[0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,1,1,1,1,1]
+
+import pandas as pd
+import numpy as np
+d={'hours':x, 'pass':y}
+df = pd.DataFrame(d)
+
+
+from sklearn.linear_model import LogisticRegression
+
+
+Xx=np.array(df[('hours')])
+Yy=df['pass']
+
+Xx
+Xx2 = np.reshape(Xx,(-1, 1))
+Xx2
+
+
+import matplotlib.pyplot as plt
+lgr = LogisticRegression()
+lgr.fit(Xx2, Yy)
+
+
+plt.scatter(Xx2,Yy)
+
+plt.scatter(Xx2,lgr.predict(Xx2))
+
+#plt.xlim(-10,  10)
+plt.scatter(Xx2,lgr.predict_proba(Xx2)[:,1])
+
+
+
