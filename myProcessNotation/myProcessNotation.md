@@ -9,3 +9,5 @@ Or
 <> - condition
 
 Graphically:
+
+![image](http://artworldprinting.com/image/map.jpg "title")
