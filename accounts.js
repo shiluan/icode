@@ -31,13 +31,12 @@ var account = {
 $(document).ready(
   function(){
     //$('#account_1').html('test_result');
-    document.getElementById("account_1").innerHTML = "whatever";
   }
 );*/
 
 // without jQuery
 document.addEventListener('DOMContentLoaded', function () {
-    $('#account_1').html('test_result');
+    document.getElementById("account_1").innerHTML = "whatever";
   }
 });
 
