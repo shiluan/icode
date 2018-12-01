@@ -30,7 +30,8 @@ var account = {
 /*
 $(document).ready(
   function(){
-    $('#account_1').html('test_result');
+    //$('#account_1').html('test_result');
+    document.getElementById("account_1").innerHTML = "whatever";
   }
 );*/
 
