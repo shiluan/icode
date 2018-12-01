@@ -37,6 +37,5 @@ $(document).ready(
 // without jQuery
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("account_1").innerHTML = "whatever";
-  }
 });
 
