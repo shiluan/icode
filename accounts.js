@@ -27,8 +27,16 @@ var account = {
 
 
 // render.1 -> <div id='account_1'>
+/*
 $(document).ready(
   function(){
     $('#account_1').html('test_result');
   }
-);
+);*/
+
+// without jQuery
+document.addEventListener('DOMContentLoaded', function () {
+    $('#account_1').html('test_result');
+  }
+});
+
