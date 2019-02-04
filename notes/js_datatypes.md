@@ -1,5 +1,5 @@
-Javascript data types
-## ref: w3schools (https://www.w3schools.com/js/js_datatypes.asp)
+### Javascript data types
+[ref: w3schools](https://www.w3schools.com/js/js_datatypes.asp)
 
 ```
 primitive types:
