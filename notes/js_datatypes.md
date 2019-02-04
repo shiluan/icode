@@ -1,7 +1,7 @@
 Javascript data types
 ## ref: w3schools (https://www.w3schools.com/js/js_datatypes.asp)
 
-
+```
 primitive types:
 Number
 String
@@ -28,3 +28,4 @@ null === undefined // false
 javascript types are dynamic: 
 var x; typeof x is undefined
 x = 5; typeof x is Number
+```
