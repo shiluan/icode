@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="myCanvas" width="400" height="300" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+<script>
+    var v=[0, 1,2,3];
+    var vv = [110,110,160,130,280,140,250,250];
+    var edg = [0,1,1,2,3,2];
+    
+    
+    // draw 
+    
+    //1. vertex
+    for (var vi in v){
+    	let x = vv[2*vi];
+        let y = vv[2*vi+1];
+        vertex(x,y);
+    
+    }
+    
+    //2. edges
+    for (var i=0; i<edg.length/2; i++){
+    	let p1 = edg[2*i];
+        let p2 = edg[2*i+1];
+        direct(p1,p2);
+    
+    }
+
+
+function vertex(x, y){
+  var c = document.getElementById("myCanvas");
+  var ctx = c.getContext("2d");
+  ctx.beginPath();
+  
+  ctx.arc(x,y,5,0,2*Math.PI);
+  ctx.stroke();
+}
+
+
+function direct(p1, p2){
+  var c = document.getElementById("myCanvas");
+  var ctx = c.getContext("2d");
+  ctx.beginPath();
+  
+  let x1 = vv[2*p1];
+  let y1= vv[2*p1+1];
+
+  let x2 = vv[2*p2];
+  let y2 = vv[2*p2+1];
+
+let r = 5;
+let thita = (y2-y1)/(x2-x1);
+y2p =y1+ r/Math.sqrt(1+1/thita^2);
+x2p = x1 + r/thita; 
+  
+ctx.moveTo(x2p, y2p);
+ctx.lineTo(x2, y2);
+
+ 
+  
+  
+  ctx.stroke();
+}
+
+</script> 
+
+</body>
+</html>
