@@ -65,6 +65,30 @@ ctx.lineTo(x2, y2);
   ctx.stroke();
 }
 
+    
+/*  draw arrow lines
+    https://stackoverflow.com/questions/808826/draw-arrow-on-canvas-tag
+*/    
+function draw_arrow(ctx,fx,fy,tx,ty){ 
+    var angle=Math.atan2(ty-fy,tx-fx);
+    ctx.moveTo(fx,fy); ctx.lineTo(tx,ty);
+    
+    var w=3.5; //width of arrow to one side. 7 pixels wide arrow is pretty
+    
+    
+    ctx.strokeStyle="#8d8d8d"; ctx.fillStyle="#4d4d4d";
+    angle=angle+Math.PI/2; tx=tx+w*Math.cos(angle); ty=ty+w*Math.sin(angle);
+    ctx.lineTo(tx,ty);
+  
+    //Drawing an isosceles triangle of sides proportional to 2:7:2
+    angle=angle-1.849096; tx=tx+w*3.5*Math.cos(angle); ty=ty+w*3.5*Math.sin(angle);
+    ctx.lineTo(tx,ty);
+    angle=angle-2.584993; tx=tx+w*3.5*Math.cos(angle); ty=ty+w*3.5*Math.sin(angle);
+    ctx.lineTo(tx,ty);
+    angle=angle-1.849096; tx=tx+w*Math.cos(angle); ty=ty+w*Math.sin(angle);
+    ctx.lineTo(tx,ty);
+    ctx.stroke(); ctx.fill();
+}
 </script> 
 
 </body>
