@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+
+<script>
+
+//block text notation
+const x = `
+function x(){
+  alert('hi');
+}`;
+
+
+// pattern mining
+//re_functions = /function\s+(\w+)\s*\{/g;
+re_functions = /function\s+(\w+)\s*\([\w\s\,\_]*\)\s*{/gim;
+fe = re_functions.exec(x);
+if(fe)
+  alert(fe[1]);
+
+
+function f(s){
+  
+  if(s.indexOf('hi')>0)
+    alert('found!');
+  
+}
+
+f(x);
+
+
+
+</script>
+
+</head>
+<body>
+
+</body>
+</html>
