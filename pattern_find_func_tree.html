@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width">
   <title>JS Bin</title>
 
+<style>
+.tab { margin-left: 40px; }
+</style>
+
 <script>
   
   /******************************
@@ -363,6 +367,7 @@ http://www.drregex.com/2017/11/match-nested-brackets-with-regex-new.html
 
 */
 
+//## extract a function list
 
 fs=[];
 
@@ -373,18 +378,66 @@ fs.push(fe[1]);
 
 console.log(fs);
 
+
+// match max 3-level {} struct
+//var patt1 = /\{[^\{\}]*(?:\{[^\{\}]*(?:\{[^\{\}]+\})*[^\{\}]*\})*[^\{\}]*\}/i;
+
+
+//## extract a function body
+// function: initialize_simulation
+re_func_body = /function\s+(draw_grid)\s*\([\w\s\,\_]*\)\s*\{[^\{\}]*(?:\{[^\{\}]*(?:\{[^\{\}]+\})*[^\{\}]*\})*[^\{\}]*\}/gim;
+
+
+
+function recur_pattern(lev){
+if(lev==1){
+return `\\{[^\\{\\}]+\\}`;
+}
+else{
+return `\\{[^\\{\\}]*(?:${recur_pattern(lev-1)})*[^\\{\\}]*\\}`;
+}
+}
+
+console.log(recur_pattern(1));
+console.log(recur_pattern(2));
+console.log(recur_pattern(3));
+console.log(recur_pattern(4));
+console.log(recur_pattern(5));
+
+
+var func_pre = 'function\\s+(calc_distance)\\s*\\([\\w\\s\\,\\_]*\\)\\s*';
+var ptn =  func_pre + recur_pattern(10)
+console.log(ptn);
+re_func_body =  new RegExp(ptn);
+
+
+var f1 = x.match(re_func_body);
+console.log(f1?f1[0]:'');
+
+
 window.onload = ()=>{
 var func_tag = document.getElementById("functions");
 func_tag.innerHTML = fs.join('</br>');
+
+var func_btag = document.getElementById("funcbody");
+var ftx = f1[0].replace(/[\r\n]/g, '<br/>');
+ftx = ftx.replace(/\t/g, '&emsp;');
+func_btag.innerHTML = ftx;
+
 }
+
+
 
 
 </script>
 
 </head>
 <body>
+<h4>The function list</h4>
+<div id="functions"></div>
+<h4>The function body</h4>
+<blockquote id="funcbody">ggg</blockquote>
 
-<div id="functions"/>
 
 </body>
 </html>
