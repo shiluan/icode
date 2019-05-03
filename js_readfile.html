@@ -1,0 +1,42 @@
+// instead, read from uploaded file
+/*
+ref: 
+https://techoverflow.net/2018/03/30/reading-an-uploaded-file-into-memory-using-pure-javascript/
+"You have a File object in Javascript (e.g. from a drag & drop upload or a <input type="file">) which you want to read into memory in the browser. You don’t want to use any library to do that but prefer a pure Javascript solution."
+
+*/
+
+function readFileIntoMemory (file, callback) {
+
+  if(!file){
+    //file = document.getElementById('fid');
+file = document.querySelector('input').files[0]
+  }
+    var reader = new FileReader();
+    reader.onload = function () {
+        callback({
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            content: new Uint8Array(this.result)
+         });
+    };
+    //reader.readAsArrayBuffer(file);
+reader.readAsText(file);
+// reader.result; //is the content
+}
+
+function notifme(m){
+
+alert(m.name);
+
+
+}
+
+
+</script>
+
+
+ <input type="file" id="fid">
+<input type='button' value='IMPORT' onclick='readFileIntoMemory(null, notifme) '/>
+</br></br>
