@@ -1,0 +1,40 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="h_d_table.js"></script>
+
+<style>
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>This is a Heading</h1>
+<p>This is a paragraph.</p>
+
+<table id="t1"></table>
+
+<script>
+
+// data is an array
+var dat = {"Year":[1,2,3,4,5,6,7,8,9], "Sales":[651,762,856,1063,1190,1298,1421,1440,1518], "Advertising":[23,26,30,34,43,48,52,57,58]};
+h_d_table(dat);
+
+
+</script>
+
+</body>
+
+</html>
