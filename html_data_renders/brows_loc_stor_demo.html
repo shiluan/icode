@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<script src="brows_loc_stor.js"></script>
+<script>
+
+if(browser_loc_stor.support()){
+
+let stor = browser_loc_stor;
+
+stor.add('k1', 'shiluan');
+stor.add('k1', 'kevinluan')
+alert(stor.get('k1'));
+}
+
+
+
+</script>
+
+<button onclick="browser_loc_stor.clear('k1');">Clear</button>
+
+</body>
+</html>
