@@ -1,3 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+
+<script>
 // instead, read from uploaded file
 /*
 ref: 
@@ -6,33 +14,29 @@ https://techoverflow.net/2018/03/30/reading-an-uploaded-file-into-memory-using-p
 
 */
 
-function readFileIntoMemory (file, callback) {
+function readFileIntoMemory (fi, callback) {
 
-  if(!file){
-    //file = document.getElementById('fid');
-file = document.querySelector('input').files[0]
-  }
-    var reader = new FileReader();
+    fi = fi || document.getElementById('fid').files[0];
+ 
+ 	var reader = new FileReader();
     reader.onload = function () {
         callback({
-            name: file.name,
-            size: file.size,
-            type: file.type,
+            name: this.name,
+            size: fi.size,
+            type: fi.type,
             content: new Uint8Array(this.result)
          });
     };
+    
+    // trigger the reader events
     //reader.readAsArrayBuffer(file);
-reader.readAsText(file);
-// reader.result; //is the content
+    //reader.readAsDataURL(f); 
+	reader.readAsText(fi);	
 }
 
 function notifme(m){
-
-alert(m.name);
-
-
+	alert(m.content);
 }
-
 
 </script>
 
@@ -40,3 +44,6 @@ alert(m.name);
  <input type="file" id="fid">
 <input type='button' value='IMPORT' onclick='readFileIntoMemory(null, notifme) '/>
 </br></br>
+
+</body>
+</html>
