@@ -7,3 +7,14 @@ accelerometer and gyroscope
 to measure angular velocity (angular momentum) and orientation 
 
 
+Accelerometer 
+Gyroscope 
+barometer
+pedometer
+
+Device API
+https://www.audero.it/demo/device-orientation-api-demo.html
+
+
+John Hopkins U on Coursera
+https://www.coursera.org/jhu
