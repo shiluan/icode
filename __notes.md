@@ -18,3 +18,8 @@ https://www.audero.it/demo/device-orientation-api-demo.html
 
 John Hopkins U on Coursera
 https://www.coursera.org/jhu
+
+
+scenrios vs use cases: use cases document the details of implmentation of scenarios
+https://www.projectmanagementdocs.com/template/project-documents/use-case-document/#axzz5qrEHKeDK
+
