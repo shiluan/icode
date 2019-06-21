@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>GaussianPDF(x)</h2>
+
+<p id="demo">sss</p>
+
+<script>
+ Math.getGaussianPDF = function(mean = 0.0, std = 1.0 , max_h = 1.0) {
+  
+        return function gdf(x) {
+            return max_h * Math.pow(Math.E, -Math.pow(x - mean, 2) / (2 * (std * std)));
+        }
+    };
+    
+    
+let my_dgf = Math.getGaussianPDF(60, 10, 100);
+
+
+document.getElementById('demo').innerHTML = `let my_dgf = Math.getGaussianPDF(60, 10, 100);`;
+document.getElementById('demo').innerHTML += `<br/>GaussianPDF(x=50) = ${my_dgf(x=50)}`;
+
+
+// gen random flow in (low, high)
+ Math.getRandom = function(low = 0.0, high = 1.0) {
+  
+        return function gdf() {
+            return low + Math.random()*(high-low)
+        }
+    };
+    
+
+let my_rdm = Math.getRandom(20, 80);
+document.getElementById('demo').innerHTML = `random in (20, 80): ${my_rdm()}`;
+
+
+/*
+const convergeGradientDescent = (
+gradientFunction, // the gradient Function 
+x0 = 0, // starting position
+maxIters = 1000, // Maximum number of iterations
+precision = 0.00001,  //  Desired precision of result
+gamma = 0.01  // Step size multiplier
+) => {
+  let step = 2*precision
+  let iter = 0
+  let x = x0
+  while (true){
+    step = gamma * gradientFunction(x)
+    x -= step
+    iter++
+    console.log(iter)
+    if(iter > maxIters) throw Error("Exceeded maximum iterations")
+    if(Math.abs(step) < precision) {
+      console.log(`Minimum at: ${x}`)
+      console.log(`After ${iter} iteration(s)`)
+      return(x)
+    }
+  }
+}
+
+// TEST
+// gradient function, df
+const df = (x) => (4*x-9)*x*x
+convergeGradientDescent(df,6)
+//2.2499646074278457
+//Minimum at: 2.2499646074278457
+//after 70 iteration(s)
+*/
+
+
+// to test the tea case:
+const teaGradientDescent = (
+gradientFunction, // the gradient Function 
+x0 = 0, // starting position
+maxIters = 1000, // Maximum number of iterations
+precision = 0.0005,  //  Desired precision of result
+gamma = 0.1  // Step size multiplier
+) => {
+  let step = 2*precision
+  let iter = 0
+  let x = x0
+  let x1 = x0 - step
+  while (true){
+    step = gamma * gradientFunction(x, x1)
+	x1 = x
+    x -= step
+    iter++
+    console.log(iter + `@${x}`)
+    if(iter > maxIters) throw Error("Exceeded maximum iterations")
+    if(Math.abs(step) < precision) {	  
+      console.log(`Minimum at: ${x}`)
+      console.log(`After ${iter} iteration(s)`)
+      return(x)
+    }
+  }
+}
+
+
+const df = (t,t1) => (my_dgf(t)-my_dgf(t1)/(t-t1))
+teaGradientDescent(df,30)
+
+	
+    
+</script>
+
+</body>
+</html>
