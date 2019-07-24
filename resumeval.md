@@ -1,8 +1,12 @@
 # resumeval is an application to evaluate the match of a resume as to a job description
 
+
+
 ref:
 http://web.ift.uib.no/Teori/KURS/WRK/TeX/symALL.html
 
+markdown cheatsheet:
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#code
 
 <img src="https://latex.codecogs.com/svg.latex?\Large&space;x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
 
