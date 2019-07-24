@@ -8,8 +8,11 @@ http://web.ift.uib.no/Teori/KURS/WRK/TeX/symALL.html
 
 
 
+The cosine similarity formula :
+
 <img src="https://latex.codecogs.com/svg.latex?\Large&space;cos(\theta)=\frac{\sum{A.B}}{\sqrt{\sum{A^2}}{\sqrt{\sum{B^2}}}}" title="\Large x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}" />
 
+Python code calculating consine similarity: 
 
 ``` for python
 from scipy import spatial
