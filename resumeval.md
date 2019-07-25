@@ -35,3 +35,41 @@ from numpy.linalg import norm
 cos_sim = dot(a, b)/(norm(a)*norm(b))
 print(cos_sim)
 ```
+
+
+'''
+import numpy as np
+import matplotlib.pyplot as plt
+objects = ('Python', 'C++', 'Java', 'Perl', 'Scala', '
+y_pos = np.arange(len(objects))
+performance = [10,8,6,4,2,1]
+plt.bar(y_pos, performance, align='center', alpha=0.5)
+plt.xticks(y_pos, objects)
+plt.ylabel('Usage')
+plt.title('Programming language usage')
+plt.show()
+plt.ion()
+'''
+
+''' python code
+print('xyz')
+
+
+#
+# score the match of a text with a phrase  
+# e.g. 'business management certificate'
+# given text 'I obtained certificate of business manag
+#
+phrase = 'business management certificate'
+text = 'I obtained certificate of business management 
+gram1 = ['business', 'managment', 'certificate']
+gram2 = ['business management', 'management certificat
+gram3 = ['business management certificate']
+gram1_score = [1,1,1];
+gram2_score = [1,0]
+gram3_score = [0]
+score = sum(ln(i+1): for i in gram1_score)
+score += sum(i^2: for i in gram2_score)
+score += sum(i^3: for i in gram3_score)
+
+'''
