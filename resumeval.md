@@ -37,6 +37,7 @@ print(cos_sim)
 ```
 
 
+```
 '''
 import numpy as np
 import matplotlib.pyplot as plt
@@ -51,7 +52,6 @@ plt.show()
 plt.ion()
 '''
 
-''' python code
 print('xyz')
 
 
@@ -72,4 +72,4 @@ score = sum(ln(i+1): for i in gram1_score)
 score += sum(i^2: for i in gram2_score)
 score += sum(i^3: for i in gram3_score)
 
-'''
+```
