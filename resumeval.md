@@ -73,3 +73,23 @@ score += sum(i^2: for i in gram2_score)
 score += sum(i^3: for i in gram3_score)
 
 ```
+
+```
+def grams_freq(n):
+  return 1; ## search the text and get the frequency sum
+
+
+
+grams_freq_n = [3,2,1]
+#grams_freq_n = [0,0,0]
+n=len(grams_freq_n)
+
+grams_freq_n_adj = [x*(1+1/(n-i)) for i, x in enumerate(grams_freq_n)] 
+print(grams_freq_n_adj)
+
+ln_sum = sum([np.log(x/(i+1)**2+1) for i, x in enumerate(grams_freq_n_adj)])
+print (ln_sum)
+
+#gram_freq = [[]]
+#gram_score 
+```
