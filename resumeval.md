@@ -75,21 +75,34 @@ score += sum(i^3: for i in gram3_score)
 ```
 
 ```
-def grams_freq(n):
-  return 1; ## search the text and get the frequency sum
+
+
+def n_gram_sum(gram_freq):
+  gsum = sum([np.log(x/(i+1)+1) for i, x in enumerate(gram_freq)])
+  return gsum
 
 
 
-grams_freq_n = [3,2,1]
-#grams_freq_n = [0,0,0]
-n=len(grams_freq_n)
+def n_gram_total(n):
+  r = np.arange(n)
+  s = sum([np.log((n-i)/(i+1)+1) for i in r])
+  return s
 
-grams_freq_n_adj = [x*(1+1/(n-i)) for i, x in enumerate(grams_freq_n)] 
-print(grams_freq_n_adj)
+def n_gram_score(ng_freq):
+  s = n_gram_sum(ng_freq)
+  t = n_gram_total(len(ng_freq))
+  return s/t
 
-ln_sum = sum([np.log(x/(i+1)**2+1) for i, x in enumerate(grams_freq_n_adj)])
-print (ln_sum)
 
-#gram_freq = [[]]
-#gram_score 
+#tests
+print(n_gram_score([3,2,1])) #score = 1.0
+print(n_gram_score([0,0,0])) #score = 0.0
+
+print(n_gram_score([4,3,2,1])) #score = 1.0
+print(n_gram_score([0,0,0,0])) #score = 0.0
+
+print(n_gram_score([3,1,0,0])) # score=0.55 (between 0 and 1) for a 4-word term matching
+
+
+
 ```
