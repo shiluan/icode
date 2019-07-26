@@ -103,6 +103,27 @@ print(n_gram_score([0,0,0,0])) #score = 0.0
 
 print(n_gram_score([3,1,0,0])) # score=0.55 (between 0 and 1) for a 4-word term matching
 
+### example
+#
+# score the match of a text with a phrase  
+# e.g. 'business management certificate'
+# given text 'I obtained certificate of business management in 1969'
+#
+term = 'business management certificate'
+term_type = 'strong'
+# for 'weak term type score only is based on gram_1'
 
+text = 'I obtained certificate of business management in 1969'
+
+gram1 = ['business', 'managment', 'certificate']
+gram2 = ['business management', 'management certificate']
+gram3 = ['business management certificate']
+
+gram1_emb = [1,1,1];
+gram2_emb = [1,0]
+gram3_emb = [0]
+
+gram_freq = [3,1,0]
+print(n_gram_score([3,1,0,])) # score = 0.76
 
 ```
