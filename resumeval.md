@@ -5,6 +5,10 @@
 ref:
 http://web.ift.uib.no/Teori/KURS/WRK/TeX/symALL.html
 
+the theory:
+https://nlp.stanford.edu/IR-book/html/htmledition/dot-products-1.html
+
+
 markdown cheatsheet:
 https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#code
 
