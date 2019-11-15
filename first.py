@@ -9,5 +9,4 @@ end = datetime.today()
 
 
 print(start, end)
-
 df = data.datareader('IBM', 'google', start, end)
