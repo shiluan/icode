@@ -7,5 +7,7 @@ import datetime as dt
 start = dt.datetime(2017, 1, 1)
 end = datetime.today()
 
+
 print(start, end)
+
 df = data.datareader('IBM', 'google', start, end)
