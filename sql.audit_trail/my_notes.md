@@ -11,22 +11,21 @@ sql string, it doesn't work since I can't use parameters. Finally with sp_execut
 
 
 ```
+-- sp_executesql
 
-  -- sp_executesql
+declare @ov varchar(1000) 
+declare @nv varchar(1000)
+declare @fn varchar(128)
+set @fn = @colNames
+declare @cmd nvarchar(4000)
+declare @pm nvarchar(128)
+set @pm = N'@ov varchar(1000) output, @nv varchar(1000) output'
 
-	declare @ov varchar(1000) 
-	declare @nv varchar(1000)
-	declare @fn varchar(128)
-	set @fn = @colNames
-	declare @cmd nvarchar(4000)
-	declare @pm nvarchar(128)
-	set @pm = N'@ov varchar(1000) output, @nv varchar(1000) output'
+set @cmd = N'select  @nv = i.' + @fn + N', @ov = d.'+ @fn + N' from #ins i join #del d on i.Id = d.Id' 
 
-	set @cmd = N'select  @nv = i.' + @fn + N', @ov = d.'+ @fn + N' from #ins i join #del d on i.Id = d.Id' 
+exec sp_executesql @cmd, @pm, @ov output, @nv output 
 
-	exec sp_executesql @cmd, @pm, @ov output, @nv output 
-
-	print(@ov)
-	print (@nv)
+print(@ov)
+print (@nv)
 	
 ```
