@@ -10,6 +10,9 @@ following variables are required to customize for use:
 
 */
 
+
+--Drop trigger trig_auditing_trail
+
 CREATE TRIGGER [dbo].[trig_auditing_trail] 
 ON TestTrigger	-- {the tracking table name}
 FOR INSERT, UPDATE, DELETE
@@ -19,12 +22,6 @@ BEGIN
 
 	DECLARE @auditingTable VARCHAR(128)
 	SET @auditingTable = 'ClaimAuditTrail'
-	
-
-	-- Configure the fields to be tracked
-	DECLARE @fields TABLE (field_name VARCHAR(128))
-	INSERT @fields values('FirstName'),('Age')
-
 
 	-- Determine the table name from the context
 	DECLARE @tblname VARCHAR(128)
@@ -32,6 +29,9 @@ BEGIN
 	FROM sys.objects 
 	WHERE sys.objects.name = OBJECT_NAME(@@PROCID)
 	
+	-- Configure the fields to be tracked
+	DECLARE @fields TABLE (field_name VARCHAR(128))
+	INSERT @fields SELECT FieldName FROM ClaimAuditTrailConfig WHERE TableName = @tblname
 	
 	-- Determine the action type
 	DECLARE @type VARCHAR(10) --{insert, delete, update}
