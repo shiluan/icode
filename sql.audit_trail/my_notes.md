@@ -1,5 +1,6 @@
 
 
+### Dynamic SQL with parameters
 Is there a way of creating a function while without bother creating sql function system object? Yes. 
 with the sp_executesql command, we can do it.
 
