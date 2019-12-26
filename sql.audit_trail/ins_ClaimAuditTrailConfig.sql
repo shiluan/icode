@@ -63,11 +63,11 @@ INSERT ClaimAuditTrailConfig
 	(TableName, FieldName)
 VALUES 
 	('ClaimLife', 'FirstName'),
-	('LastName'),
-	('BirthDate'),
-	('DeathDate'),
-	('CauseOfDeath')
-
+	('ClaimLife', 'FirstName'),
+	('ClaimLife', 'LastName'),
+	('ClaimLife', 'BirthDate'),
+	('ClaimLife', 'DeathDate'),
+	('ClaimLife', 'CauseOfDeath')
 
 
 
