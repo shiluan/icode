@@ -7,7 +7,7 @@ with the sp_executesql command, we can do it.
 In the following code snippet for a trigger, I want to get the old value and the new value of a column,  
 which is a variable, so I need to use dynamic sql. and further more, I need to pass parameters to the 
 code block and I expect the result passed back through output parameters. I first tried to exec a dynamic 
-sql string, it doesn't work since I can't use parameters. but with sp_executesql, it works out.
+sql string, it doesn't work since I can't use parameters. Finally with sp_executesql, I make it work.
 
 
 ```
