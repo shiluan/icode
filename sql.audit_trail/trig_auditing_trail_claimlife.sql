@@ -11,10 +11,11 @@ following variables are required to customize for use:
 */
 
 
---Drop trigger trig_auditing_trail
 
-CREATE TRIGGER [dbo].[trig_auditing_trail_claimLife] 
-ON ClaimLife	-- {the tracking table name}
+-- DROP TRIGGER trig_auditing_trail_claimDetail
+
+CREATE TRIGGER [dbo].trig_auditing_trail_claimDetail 
+ON [dbo].[ClaimDetail]	-- {the tracking table name}
 FOR INSERT, UPDATE, DELETE
 AS 
 
@@ -58,13 +59,14 @@ BEGIN
 			ClaimSetupId,
 			TableName, 
 			TableKey, 
-			[Action] --,
-			--ActionTakenBy
+			[Action],
+			ActionTakenBy
 		) SELECT ' 
 			+ 'i.ClaimSetupId' + ','
 			+  '''' + @tblname + ''','  
 			+ 'i.Id' + ','
-			+ '''' + @type + '''' 
+			+ '''' + @type + ''',' 
+			+ 'd.LastUpdatedBy'
 			+ ' FROM #ins i' 
 		--print @sql
 		EXEC (@sql)
@@ -78,13 +80,14 @@ BEGIN
 		ClaimSetupId,
 			TableName, 
 			TableKey, 
-			[Action] --,
-			--ActionTakenBy
+			[Action],
+			ActionTakenBy
 		) SELECT ' 
 		+ 'd.ClaimSetupId' + ','
 			+  '''' + @tblname + ''','  
 			+ 'd.Id' + ','
-			+ '''' + @type + '''' 
+			+ '''' + @type + ''','
+			+ 'd.LastUpdatedBy'
 			+ ' FROM #del d' 
 		
 		EXEC (@sql)
@@ -125,8 +128,8 @@ BEGIN
 							FieldName, 
 							PreviousValue, 
 							ChangedValue,
-							[Action] --,
-							--ActionTakenBy
+							[Action],
+							ActionTakenBy
 						)
 						SELECT ' 
 						+ 'i.ClaimSetupId' + ','
@@ -135,8 +138,8 @@ BEGIN
 							+ '''' + @fieldname + ''','
 							+ 'convert(VARCHAR(128),d.' + @fieldname + '),'
 							+ 'convert(VARCHAR(128),i.' + @fieldname + '),'
-							+ '''' + @type + '''' 
-
+							+ '''' + @type + ''',' 
+							+ 'i.LastUpdatedBy'
 							+ ' FROM #ins i JOIN #del d ON i.Id = d.Id'
 							+ ' WHERE i.' + @fieldname + ' <> d.' + @fieldname 
 							+ ' OR (i.' + @fieldname + ' IS NULL AND  d.'
@@ -157,6 +160,7 @@ BEGIN
 		END
 	END
 END
+
 
 GO
 
