@@ -132,13 +132,8 @@ BEGIN
 							+ '''' + @type + '''' 
 
 							+ ' FROM #ins i JOIN #del d ON i.Id = d.Id'
-							+ ' WHERE i.' + @fieldname + ' <> d.' + @fieldname 
-							+ ' OR (i.' + @fieldname + ' IS NULL AND  d.'
-													+ @fieldname 
-													+ ' IS NOT NULL)' 
-							+ ' OR (i.' + @fieldname + ' IS NOT NULL AND  d.' 
-													+ @fieldname
-													+ ' IS NULL)' 
+							+ ' WHERE coalesce(convert(varchar, i.' + @fieldname + ' ), '''')  <> coalesce(convert(varchar, d.' + @fieldname + ' ), '''')'
+
 
 					--print @sql
 
