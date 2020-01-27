@@ -102,6 +102,32 @@ BEGIN
 	--WHERE LineOfBusiness = 'A&H'
 
 
+	/* UPR (Unearned Premium Reserve) Factor formula */
+
+	UPDATE @trans 
+	SET UPRFactor =	1 - (DATEDIFF(day, QtrEndDate, DATEADD(day, 1, EffectiveDate))/365) * ((DATEDIFF(month, QtrEndDate, EffectiveDate)+12)/12)
+	WHERE RADLOD = 'RAD'
+	
+	UPDATE @trans 
+	SET UPRFactor =	1 - (DATEDIFF(day, QtrEndDate, DATEADD(day, 1, EffectiveDate))/365) * (DATEDIFF(month, QtrEndDate, EffectiveDate)/12)
+	WHERE RADLOD = 'LOD'
+
+	
+
+
+	/* Update QuarterEndSummary */
+	
+	UPDATE dbo.QuarterEndSummary
+	SET INBRAmount = t.INBRAmount,
+		UPRFactor = t.UPRFactor,
+		UnearnedPremiumReserve = t.UPRFactor x s.ManagementFeesPaid
+		
+	FROM dbo.QuarterEndSummary AS s
+		JOIN @trans AS t 
+		ON t.BillingAcctId = s.BillingID
+		AND s.StatementDate = @Current_StatementDate 
+
+
 
 /* Update QuarterEndSummary */
 	
