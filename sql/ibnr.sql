@@ -128,18 +128,4 @@ BEGIN
 		AND s.StatementDate = @Current_StatementDate 
 
 
-
-/* Update QuarterEndSummary */
-	
-	UPDATE dbo.QuarterEndSummary
-	SET INBRAmount = t.INBRAmount
-		
-	FROM dbo.QuarterEndSummary AS s
-		JOIN @trans AS t 
-		ON t.BillingAcctId = s.BillingID
-		AND s.StatementDate = @Current_StatementDate 
-
-
-
-
 END
