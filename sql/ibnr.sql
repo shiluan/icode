@@ -1,3 +1,13 @@
+/*
+
+select object_name(object_id), name 
+from  sys.columns where lower(name) 
+like '%premium%' order by name
+
+*/
+
+
+-- drop proc sp_QuarterEnd_QuarterEndSummary_IBNR
 CREATE PROC [dbo].[sp_QuarterEnd_QuarterEndSummary_IBNR]
 (
   @QuarterEndProcessId INT
@@ -10,20 +20,43 @@ CREATE PROC [dbo].[sp_QuarterEnd_QuarterEndSummary_IBNR]
 AS
 
 BEGIN
+	/* Q.E. variables */
+	DECLARE @AssumingCompanyId int;
+	DECLARE @LineOfBusiness nvarchar(255);
+	DECLARE @Current_StatementDate datetime;
+
+	SELECT @AssumingCompanyId = AssumingCompanyId,
+		   @Current_StatementDate = QuarterEndDate,
+		   @LineOfBusiness = LineOfBusiness
+    FROM   dbo.QuarterEndProcess
+    WHERE  Id = @QuarterEndProcessId;
+
+
 	DECLARE @trans TABLE
 	(
+		BillingId INT,
 		QtrEndDate	DATETIME,
-		INBRFactor	DECIMAL,
+		IBNRFactor	DECIMAL,
 		ExpiryDate	DATETIME, 
 		EffectiveDate	DATETIME,
-		INBRMethod	VARCHAR(10),
+		IBNRMethod	VARCHAR(10),
 		TmpMax111	INT, 
 		TmpMax11	INT,
 		TmpMin1		INT
 		, LineOfBusiness VARCHAR(20)
 		, RadLod VARCHAR(20)
+		, UPRFactor DECIMAL
 
 	)
+
+	INSERT INTO @trans
+	(
+		BillingId
+	)
+	SELECT BillingId FROM QuarterEndSummary
+	WHERE StatementDate = @Current_StatementDate
+
+
 
 	UPDATE @trans 
 	SET TmpMax111 = CASE 
@@ -63,47 +96,12 @@ BEGIN
 
 	/* INBRFactor  */
 	UPDATE @trans 
-	SET INBRFactor 
+	SET IBNRFactor 
 		= TmpMin1 / DATEDIFF(day, ExpiryDate, EffectiveDate)
 
-	/*INBRAmount*/
-	--UPDATE @trans 
-	--SET INBRAmount 
-	--	= INBRFactor 
-	--	 * ((FYPremPd + FYPremOS + RenPremPd + RenPremOS) 
-	--	 - (BkgPd + BkgOS)  
-	--	 - (FYAllowPd + FYAllowOS + RenAllowPd + RenAllowOS)
-	--	 - (FETaxPd + FETaxOF) 
-	--	 – (FYMgtFeePd + FYMgtFeeOS + RenMgtFeePd + RenMgtFeeOS) 
-	--	 - (CAPremPd + CAPremOS) 
-	--	 - (ERRPd + ERROS)) 
-	--WHERE  IBNRMethod = 'Gross'
 
-	/*INBRAmount*/
-	--UPDATE @trans 
-	--SET INBRAmount 
-	--	= INBRFactor 
-	--	 * (( TotalEarnedPrem 
-	--	 - TotalEarnedBrokerage 
-	--	 - TotalEarnedAllow 
-	--	 - TotalTaxes 
-	--	 - TotalEarnedMgtFees 
-	--	 - TotalCAPrem)
-	--	 - (ERRPd + ERROS)) 
-	--WHERE  IBNRMethod = 'Earned'
-
-
-	--/*INBRAmount*/
-	--UPDATE @trans 
-	--SET INBRAmount 
-	--	= INBRAmount 
-	--	– (ClaimAmountsPaid + ReserveforIncurredandReportedClaims) 
-
-	--WHERE LineOfBusiness = 'A&H'
-
-
+	
 	/* UPR (Unearned Premium Reserve) Factor formula */
-
 	UPDATE @trans 
 	SET UPRFactor =	1 - (DATEDIFF(day, QtrEndDate, DATEADD(day, 1, EffectiveDate))/365) * ((DATEDIFF(month, QtrEndDate, EffectiveDate)+12)/12)
 	WHERE RADLOD = 'RAD'
@@ -112,20 +110,50 @@ BEGIN
 	SET UPRFactor =	1 - (DATEDIFF(day, QtrEndDate, DATEADD(day, 1, EffectiveDate))/365) * (DATEDIFF(month, QtrEndDate, EffectiveDate)/12)
 	WHERE RADLOD = 'LOD'
 
-	
 
 
-	/* Update QuarterEndSummary */
+	/*INBRAmount*/
+	UPDATE QuarterEndSummary
+	SET IBNR = t.IBNRFactor 
+		 --* ((FirstYearPremium + FYPremOS + RenPremPd + RenPremOS) 
+		 --- (BkgPd + BkgOS)  
+		 --- (FYAllowPd + FYAllowOS + RenAllowPd + RenAllowOS)
+		 --- (FETaxPd + FETaxOF) 
+		 --- (FYMgtFeePd + FYMgtFeeOS + RenMgtFeePd + RenMgtFeeOS) 
+		 --- (CAPremPd + CAPremOS) 
+		 --- (ERRPd + ERROS)) 
 	
-	UPDATE dbo.QuarterEndSummary
-	SET INBRAmount = t.INBRAmount,
-		UPRFactor = t.UPRFactor,
-		UnearnedPremiumReserve = t.UPRFactor x s.ManagementFeesPaid
-		
 	FROM dbo.QuarterEndSummary AS s
 		JOIN @trans AS t 
-		ON t.BillingAcctId = s.BillingID
+		ON s.BillingID = t.BillingId
 		AND s.StatementDate = @Current_StatementDate 
+		WHERE  IBNRMethod = 'Gross'
 
+
+	/*INBRAmount*/
+	UPDATE dbo.QuarterEndSummary
+	SET IBNR = t.IBNRFactor 
+		 --* (( TotalEarnedPrem 
+		 --- TotalEarnedBrokerage 
+		 --- TotalEarnedAllow 
+		 --- TotalTaxes 
+		 --- TotalEarnedMgtFees 
+		 --- TotalCAPrem)
+		 --- (ERRPd + ERROS)) 
+	FROM dbo.QuarterEndSummary AS s
+		JOIN @trans AS t 
+		ON s.BillingID = t.BillingId
+		AND s.StatementDate = @Current_StatementDate 
+	WHERE  IBNRMethod = 'Earned'
+
+
+	/*INBRAmount*/
+	UPDATE QuarterEndSummary
+	SET IBNR = IBNR - (ClaimAmountsPaid + ReserveforIncurredandReportedClaims) 
+	FROM QuarterEndSummary AS s
+		JOIN @trans AS t 
+		ON s.BillingID = t.BillingId
+		AND s.StatementDate = @Current_StatementDate 
+	WHERE s.LineOfBusiness = 'A&H'
 
 END
