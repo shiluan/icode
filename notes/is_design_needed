@@ -1,0 +1,47 @@
+
+
+why we need a design for a software solution?
+
+a design is an abstraction. why we need it, instead of just diving into the building? for simple, low criticality software applicaitons, it is okey to just build them. however for complicated softwares, it is not okay. for example, softwares run on airplanes and cars.
+
+like writing a novel, the you usually have a "design" first, then write; or you keep a "design" while writing. but when you write a story, you don't need a design, since you can think through the plot with your brain easily.
+
+a design process is a thinking process. you leverage existing patterns, best practices and new technologies in the process.
+
+to train our designing skills, we can implement two approaches: extract design from well-designed products; design new products.
+
+   
+
+
+
+Reference: 
+
+UBCx: SoftConst2x
+- Software Construction: Object-Oriented Design
+
+
+upload claim data files
+- check file naming convention 
+- map the billing ids
+-- if a billing id can't be found, stop
+- map claim life
+-- to: the derived inforce
+-- according to: policy number, policy issue date, life (first name, last name, dob, gender), coverage face amount
+-- continue upload if not found, leaving for manual mapping
+- claim data tables: ClaimSetup, ClaimDetail, ClaimDoc, ClaimLife
+- skip records if RBStatus = 3 (Cancelled) or 4 (Denied)
+- create new FinancialTransactionSummary
+-- skip record if RBStatus = 1 (pending)
+- create new Vaucher
+-- based on: FinancialTransactionSummary 
+- run claim validation
+-- rules: 
+
+
+reload claim data files
+- delete everything generated from loading the file
+- upload claim data file*
+
+ 
+
+- run claim data validation
