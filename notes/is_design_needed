@@ -23,7 +23,11 @@ UBCx: SoftConst2x
 upload claim data files
 - check file naming convention 
 - map the billing ids
--- if a billing id can't be found, stop
+-- if a billing id can't be found, stop the loading process
+-- skip record if RBStatus = 1(pending), 3 (cancelled), 4 (denied)
+-- only load RBStatus = 2 (paid)
+
+
 - map claim life to the derived inforce
 -- according to: policy number, policy issue date, life (first name, last name, dob, gender), coverage face amount, BillingInfoId
 -- check if a claim setup is already linked to this derived inforce record
