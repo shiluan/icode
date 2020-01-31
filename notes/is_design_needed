@@ -24,9 +24,27 @@ upload claim data files
 - check file naming convention 
 - map the billing ids
 -- if a billing id can't be found, stop
-- map claim life
--- to: the derived inforce
--- according to: policy number, policy issue date, life (first name, last name, dob, gender), coverage face amount
+- map claim life to the derived inforce
+-- according to: policy number, policy issue date, life (first name, last name, dob, gender), coverage face amount, BillingInfoId
+-- check if a claim setup is already linked to this derived inforce record
+--- if not found: insert ClaimMissingInforce for the user to map it later
+--- if found but the derived inforce is not already linked to a claim setup:
+---- insert the inforce and claim data to ClaimSetup, ClaimDetail, ClaimLife, ClaimDoc
+--- if found and linked:
+---- update ClaimSetup (ClaimNumber=>ClientClaimReferenceNo, 
+      Bill version => if >94 then Litgated=1,
+      NotifyDate => ClaimNotificationDate, 
+      DateofDeath => DeathDate
+      ContestCode => Contestable
+      DeathCode => DeathCode
+      BillDate=>ClaimLife.ReportingDate
+      PlaceOfDeath => ClaimLife.PlaceOfDeath
+      ...
+      )
+-create new Financial Transaction Summary for each BillingId
+-- for: RBStatus = 2 (paid)
+-- link all ClaimDetail records to the BillingId
+
 -- continue upload if not found, leaving for manual mapping
 - claim data tables: ClaimSetup, ClaimDetail, ClaimDoc, ClaimLife
 - skip records if RBStatus = 3 (Cancelled) or 4 (Denied)
@@ -34,6 +52,8 @@ upload claim data files
 -- skip record if RBStatus = 1 (pending)
 - create new Vaucher
 -- based on: FinancialTransactionSummary 
+-- link all transaction to this voucher by ceding company
+
 - run claim validation
 -- rules: 
 
@@ -45,3 +65,8 @@ reload claim data files
  
 
 - run claim data validation
+
+Rerun a claim data file
+- from the UI
+- delete everything and reload as specified above
+
