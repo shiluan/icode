@@ -2,16 +2,21 @@
 "name":"Quarter End Process(Q.E.P.)"
 "type": "process"
 "actors":["The Administrator",]
-"description": 
-	"
-	At the end of every Quarter a number of steps must be performed to summarize, calculate and aggregate the information in the system so that Quarterly Reports may be produced. These Quarterly Reports are the method by which ZZZ communicates the results of the business to its clients (Assuming Companies)
-	"
-"actions":["New Period", "process the Actuarial Extract", "Generate", "edit adjustment", "edit other data", 
-"create the Quarterly Financial Statements and Reports", "post", "unpost"]
+"description": "At the end of every Quarter a number of steps must be performed to summarize, calculate and aggregate the information in the system so that Quarterly Reports may be produced. These Quarterly Reports are the method by which ZZZ communicates the results of the business to its clients (Assuming Companies)"
+"actions":[
+	"New Period", 
+	"process the Actuarial Extract", 
+	"Generate", 
+	"edit adjustment", 
+	"edit other data", 
+	"create the Quarterly Financial Statements and Reports", 
+	"post", 
+	"unpost"
+]
 
 
 "name":"QuarterEndSummary"
-"type":"definition"
+"type":"dataEntity"
 "keys":[
 	"Assuming Company"
 	"Line of Business"
@@ -24,7 +29,7 @@
 
 
 "name":"Period"
-"type":"definition"
+"type":"dataEntity"
 "keys":[]
 "fields":[]
 
