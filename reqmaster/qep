@@ -6,17 +6,17 @@ QEP(QuarterEndSummary):
   description:At the end of every Quarter a number of steps must be performed to summarize, calculate and aggregate the information in the system so that Quarterly Reports may be produced. These Quarterly Reports are the method by which ZZZ communicates the results of the business to its clients (Assuming Companies)
   actions:
     - newPeriod 
-	- process the Actuarial Extract
-	- Generate
-	- edit adjustment
-	- edit other data
-	- create the Quarterly Financial Statements and Reports
-	- post
-	- unpost
+    - process the Actuarial Extract
+    - Generate
+    - edit adjustment
+    - edit other data
+    - create the Quarterly Financial Statements and Reports
+    - post
+    - unpost
   states:
     - created
     - posted
-	- unposted
+    - unposted
 
 
 
@@ -24,10 +24,10 @@ QuarterEndSummary:
   type:dataEntity
   fields:
     - *Assuming Company
-	- Line of Business
-	- StatementDate
-	- Currency
-	- Status@QEP::states
+    - Line of Business
+    - StatementDate
+    - Currency
+    - Status@QEP::states
 
 Period:
   - type":"dataEntity"
@@ -37,11 +37,11 @@ Period:
 ExchangeRate:
   - type: definition
   - fields:
-	- *FromCurrency
-	- *ToCurrency
-	- Rate
-	- DateUpdated
-	- UserUpdated
+    - *FromCurrency
+    - *ToCurrency
+    - Rate
+    - DateUpdated
+    - UserUpdated
 
 
 
@@ -49,21 +49,21 @@ BillingAdjustment:
   - description: The BillingID Adjustments tab allows the Administrator to review and adjust certain Factors and Amounts that will be used in the calculation of Quarter End results at the BillingID level. 
   - type: dataEntity
   - fields:
-	- *StatementDate 
-	- *BillingID 
-	- *Assuming CompanyID (per the selection) 
-	- *Ceding Company ID 
-	- Billing Description 
-	- Placement Number (ex. sequence No.) 
-	- IBNR Factor 
-	- IBNR Adjustment (For Group Life and A&H only) 
-	- UPR Factor (For Group Life and A&H only) 
-	- UPR Adjustment (For Group Life and A&H only) 
-	- Technical Reserve Adjustment 
-	- DAC Capitalized Adjustment 
-	- DAC Amortized Adjustment 
-	- DAC Amortization Period 
-	- Additional/Special Expense Paid 
+    - *StatementDate 
+    - *BillingID 
+    - *Assuming CompanyID (per the selection) 
+    - *Ceding Company ID 
+    - Billing Description 
+    - Placement Number (ex. sequence No.) 
+    - IBNR Factor 
+    - IBNR Adjustment (For Group Life and A&H only) 
+    - UPR Factor (For Group Life and A&H only) 
+    - UPR Adjustment (For Group Life and A&H only) 
+    - Technical Reserve Adjustment 
+    - DAC Capitalized Adjustment 
+    - DAC Amortized Adjustment 
+    - DAC Amortization Period 
+    - Additional/Special Expense Paid 
 
 
 UnderwritingYearAdjustment:
