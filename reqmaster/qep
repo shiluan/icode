@@ -1,118 +1,110 @@
 
-"name":"Quarter End Process(Q.E.P.)"
-"type": "process"
-"actors":["The Administrator",]
-"description": "At the end of every Quarter a number of steps must be performed to summarize, calculate and aggregate the information in the system so that Quarterly Reports may be produced. These Quarterly Reports are the method by which ZZZ communicates the results of the business to its clients (Assuming Companies)"
-"actions":[
-	"New Period", 
-	"process the Actuarial Extract", 
-	"Generate", 
-	"edit adjustment", 
-	"edit other data", 
-	"create the Quarterly Financial Statements and Reports", 
-	"post", 
-	"unpost"
-]
-"states":["created", "posted", "unposted"]
+QEP(QuarterEndSummary): 
+  type: process
+  actors:
+    -The Administrator	
+  description:At the end of every Quarter a number of steps must be performed to summarize, calculate and aggregate the information in the system so that Quarterly Reports may be produced. These Quarterly Reports are the method by which ZZZ communicates the results of the business to its clients (Assuming Companies)
+  actions:
+    - newPeriod 
+	- process the Actuarial Extract
+	- Generate
+	- edit adjustment
+	- edit other data
+	- create the Quarterly Financial Statements and Reports
+	- post
+	- unpost
+  states:
+    - created
+    - posted
+	- unposted
 
 
 
-"name":"QuarterEndSummary"
-"type":"dataEntity"
-"keys":[
-	*"Assuming Company"
-	*"Line of Business"
-	*"StatementDate"
-	*"Currency"
-	"Status" (Created, Posted or UnPosted) 
-]
-"fields":[]
+QuarterEndSummary:
+  type:dataEntity
+  fields:
+    - *Assuming Company
+	- Line of Business
+	- StatementDate
+	- Currency
+	- Status@QEP::states
+
+Period:
+  - type":"dataEntity"
+  - fields":
+    -
+
+ExchangeRate:
+  - type: definition
+  - fields:
+	- *FromCurrency
+	- *ToCurrency
+	- Rate
+	- DateUpdated
+	- UserUpdated
 
 
-"name":"Period"
-"type":"dataEntity"
-"keys":[]
-"fields":[]
+
+BillingAdjustment:
+  - description: The BillingID Adjustments tab allows the Administrator to review and adjust certain Factors and Amounts that will be used in the calculation of Quarter End results at the BillingID level. 
+  - type: dataEntity
+  - fields:
+	- *StatementDate 
+	- *BillingID 
+	- *Assuming CompanyID (per the selection) 
+	- *Ceding Company ID 
+	- Billing Description 
+	- Placement Number (ex. sequence No.) 
+	- IBNR Factor 
+	- IBNR Adjustment (For Group Life and A&H only) 
+	- UPR Factor (For Group Life and A&H only) 
+	- UPR Adjustment (For Group Life and A&H only) 
+	- Technical Reserve Adjustment 
+	- DAC Capitalized Adjustment 
+	- DAC Amortized Adjustment 
+	- DAC Amortization Period 
+	- Additional/Special Expense Paid 
 
 
-"name":"ExchangeRate"
-"type":"definition"
-"fields":[
-	*"FromCurrency"
-	*"ToCurrency"
-	"Rate"
-	"DateUpdated"
-	"UserUpdated"
-]
+UnderwritingYearAdjustment:
+  description: The UW Year Adjustment tab allows the Administrator to review and adjust certain dollar amounts that will be used in the calculation of Quarter End results at the Underwriting Year level. 
+  type: dataEntity
+  fields:
+	- Underwriting Year
+	- Statement Currency 
+	- Profit Commission  
+	- Management Fee Adjustment 
+	- Paid Profit Commission 
+	- Management Fee Adjustment 
+	- Outstanding Bank Fees Adjustment 
+	- Technical Reserve Adjustment 
+	- Interest Income Adjustment 
+	- Common Account Premium Adjustment 
+	- Common Account Premium Outstanding 
+	- Common Account Premium Unearned 
+	- Common Account Recoveries Paid 
+	- Common Account Recoveries Outstanding 
+	- Additional/Special Expense Paid 
 
 
-"name": "BillingAdjustment"
-"description":"The BillingID Adjustments tab allows the Administrator to review and adjust certain Factors and Amounts that will be used in the calculation of Quarter End results at the BillingID level. "
-"type": "dataEntity"
-"fields":[
-	*StatementDate 
-	*BillingID 
-	*Assuming CompanyID (per the selection) 
-	*Ceding Company ID 
-	Billing Description 
-	Placement Number (ex. sequence No.) 
-	IBNR Factor 
-	IBNR Adjustment (For Group Life and A&H only) 
-	UPR Factor (For Group Life and A&H only) 
-	UPR Adjustment (For Group Life and A&H only) 
-	Technical Reserve Adjustment 
-	DAC Capitalized Adjustment 
-	DAC Amortized Adjustment 
-	DAC Amortization Period 
-	Additional/Special Expense Paid 
-
-]
-
-
-"name": "UnderwritingYearAdjustment"
-"description": "The UW Year Adjustment tab allows the Administrator to review and adjust certain dollar amounts that will be used in the calculation of Quarter End results at the Underwriting Year level. 
-"
-"type": "dataEntity"
-"fields":[
-
-Underwriting Year – No changes allowed 
-Statement Currency – No changes allowed 
-Profit Commission  
-Management Fee Adjustment 
-Paid Profit Commission 
-Management Fee Adjustment 
-Outstanding Bank Fees Adjustment 
-Technical Reserve Adjustment 
-Interest Income Adjustment 
-Common Account Premium Adjustment 
-Common Account Premium Outstanding 
-Common Account Premium Unearned 
-Common Account Recoveries Paid 
-Common Account Recoveries Outstanding 
-Additional/Special Expense Paid 
-
-]
-
-
-"name": "BulkAdjustment"
-"description":"The Bulk Adjustment tab allows the Administrator to review and adjust certain dollar amounts that will be used in the calculation of Quarter End results at the Assuming Company level."
-"type": "dataEntity"
-"fields":[
-	Profit Commission
-	Management Fee Adjustment 
-	Paid Profit Commission 
-	Management Fee Adjustment Outstanding 
-	Bank Fees Paid 
-	Technical Reserve Adjustment 
-	Interest Income Paid 
-	Interest Income Outstanding 
-	Common Account Premium Paid 
-	Common Account Premium Outstanding 
-	Common Account Premium Unearned 
-	Common Account Recoveries Paid 
-	Common Account Recoveries Outstanding 
-	Additional/Special Expense Paid 
-	Additional/Special Expense Outstanding 
-]
+BulkAdjustment:
+  description: The Bulk Adjustment tab allows the Administrator to review and adjust certain dollar amounts that will be used in the calculation of Quarter End results at the Assuming Company level."
+  type: dataEntity
+  fields:
+	- Profit Commission
+	- Management Fee Adjustment 
+	- Paid Profit Commission 
+	- Management Fee Adjustment Outstanding 
+	- Bank Fees Paid 
+	- Technical Reserve Adjustment 
+	- Interest Income Paid 
+	- Interest Income Outstanding 
+	- Common Account Premium Paid 
+	- Common Account Premium Outstanding 
+	- Common Account Premium Unearned 
+	- Common Account Recoveries Paid 
+	- Common Account Recoveries Outstanding 
+	- Additional/Special Expense Paid 
+	- Additional/Special Expense Outstanding 
 
 
