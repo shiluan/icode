@@ -8,9 +8,9 @@ REI_WorkSheet:
     uatSite: http://192.168.0.28:8090/Account/Login
   sourceVersionControl:
     url: https://RMA-DEV-01.rmacan.local/svn/RmaAdminSystem/trunk
-	url2: https://192.168.0.28/svn/RmaAdminSystem/trunk
-	username: kevinluan
-	password: ****
+      url2: https://192.168.0.28/svn/RmaAdminSystem/trunk
+      username: kevinluan
+      password: ****
   dbconn:
     server: 192.168.0.28\Inforce
     user: appuser
