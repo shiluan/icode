@@ -2,7 +2,6 @@ REI_WorkSheet:
   wiki: http://192.168.0.28:8088/default.aspx
   bugTicket: 
     url: http://192.168.0.28:8081/Issues
-	
   forceBuildAfterCheckIn: http://192.168.0.28/ccnet/server/local/ViewServerReport.aspx
   env: 
     devSite: http://192.168.0.28:8083/Account/Login
@@ -14,11 +13,9 @@ REI_WorkSheet:
 	password: ****
   dbconn:
     server: 192.168.0.28\Inforce
-	user: appuser
-	pwd: ****
-  
-  
+    user: appuser
+    pwd: ****
   TEB: 
     url: http://tebserver.procaseconsulting.com/teb/TEB?Resource=4
     username: kluan
-	pwd: ****
+    pwd: ****
