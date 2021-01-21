@@ -10,3 +10,4 @@ this app can extent to showing any interesting things which are 'logically nearb
 showing: #EventName, #EventDetails, #EventDateTime; they are nearby the current date time - a sense of date time nearby instead of geo location
 
 
+
