@@ -1,6 +1,6 @@
 
 ## RMA File Loaad Command
-=====
+
  
 Certain types of files, eg., specially large files can't be loaded with the normal RMA file load process due to taking too long or timeout. So I introduce RMA command that uses a different technical approach to resolve the issue.
 
@@ -19,14 +19,14 @@ RmaFL -F {file_path} -R -T {target_db}
 The configuration 
 Environments and their changes are defined in configuration file. I didn't do this with db tables becausue I need to have a database environment just for this command, and it is not necessary.
 
-MapFileLocation:
-MappingFiles:
-- FileTypeKey: 
-  MapFileName:
-  TargetTable: 
-  PreSql: 
-  PostSql:
-  TriggerSql:
+  MapFileLocation:
+  MappingFiles:
+  - FileTypeKey: 
+    MapFileName:
+    TargetTable: 
+    PreSql: 
+    PostSql:
+    TriggerSql:
 
   
   
