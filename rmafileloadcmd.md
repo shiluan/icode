@@ -8,7 +8,7 @@ Rma file load process typically takes 4 hours to load a gigbite file in the firs
 
 RMA FL Command Syntax
 
-RmaFL -F {file_path} -R -T {target_db}
+   RmaFL -F {file_path} -R -T {target_db}
 
 -F: to specify the location and name of the data file 
 -R: to force a command run. without it, this command only is only to show details of the command and verify if the command is valid
@@ -19,16 +19,16 @@ RmaFL -F {file_path} -R -T {target_db}
 The configuration 
 Environments and their changes are defined in configuration file. I didn't do this with db tables becausue I need to have a database environment just for this command, and it is not necessary.
 
-  MapFileLocation:
-  MappingFiles:
-  - FileTypeKey: 
-    MapFileName:
-    TargetTable: 
-    PreSql: 
-    PostSql:
-    TriggerSql:
+          MapFileLocation:
+          MappingFiles:
+          - FileTypeKey: 
+            MapFileName:
+            TargetTable: 
+            PreSql: 
+            PostSql:
+            TriggerSql:
 
-  
+
   
 
 
