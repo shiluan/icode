@@ -1,6 +1,6 @@
 
-[set the app bar]
-(https://developer.android.com/training/appbar/setting-up)
+set the app bar
+<https://developer.android.com/training/appbar/setting-up>
 
 
 
@@ -37,4 +37,6 @@ https://docs.microsoft.com/en-us/xamarin/android/user-interface/controls/web-vie
 release through a website, APK
 https://developer.android.com/studio/publish
 https://docs.microsoft.com/en-us/xamarin/android/deploy-test/publishing/
+
+
 
