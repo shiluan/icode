@@ -65,8 +65,9 @@ Rma.BackendService.Runner.exe -stop
 copy {deploy_package}\*.*
 Rma.BackendService.Runner.exe -start
 ## verify the service started properly
-1. [PS] Get-Service | Where-Object {$_.Name -clike "Rma.Backend.Service_Acturial*"}
-2. #check the log
+1. check the service 
+[PS] Get-Service | Where-Object {$_.Name -clike "Rma.Backend.Service_Acturial*"}
+2. check the log
 notepad C:\Temp\rma\log_backendservice_actuarial.txt
 
 
