@@ -1,0 +1,74 @@
+
+RMA Backend Service Instance for Acturial 
+
+
+## the service is deployed at:
+[RMA-Dev-App-01] E:\RmaBackendService_Acturial 
+
+## Edit nlog.config file to specify the location for logs 
+
+ <target name="logfile" xsi:type="File" fileName="C:\Temp\rma\log_backendservice_actuarial.txt"
+            archiveFileName="log.{#####}.txt"
+            archiveEvery="Day"
+            archiveNumbering="Rolling"
+            concurrentWrites="true"
+            keepFileOpen="false"
+            encoding="iso-8859-2"
+    />
+
+
+## Customization in Rma.BackendService.Runner.exe.config
+
+1. target db:
+<add name="RmaDbContext" connectionString="Data Source=RMA-DEV-DB-01\INFORCE;Initial Catalog=RmaAdminUAT;User ID=RMA-DEV-DB-01-SA-INFORCE;Password=QpfLFNWPk54RciMUccZ7t9ON1JYx47PX" providerName="System.Data.SqlClient" />
+  
+2. file locations
+<appSettings>
+    <add key="IncomingFileFolder" value="E:\dataload\Actuarial\In\" />
+    <add key="OutputFileFolder" value="E:\dataload\Actuarial\Out\" />
+    <add key="DumpFileFolder" value="E:\dataload\Actuarial\Dump\" />
+    <add key="ClientSettingsProvider.ServiceUri" value="" />
+  </appSettings>
+
+
+## Code changes
+
+EntryPoint.cs file
+line 39-42
+ - x.SetDescription("Rma Backend Service");
+ - x.SetDisplayName("Rma Backend Service");
+ - x.SetServiceName("Rma.Backend.Service");
+ - x.SetInstanceName(Environment.MachineName);
+
+
+ + x.SetDescription("Rma Backend Service_Acturial");
+ + x.SetDisplayName("Rma Backend Service_Acturial");
+ + x.SetServiceName("Rma.Backend.Service_Acturial");
+ + x.SetInstanceName(Environment.MachineName);
+
+
+
+The process of building and deploying RMA Backend Service for Acturial
+
+1. get latest code
+2. upddate EntryPoint.cs
+3. Build Rma.BackendService.Runner.sln
+4. update Rma.BackendService.Runner.exe.config
+5. update NLog.config
+6. Deploy (refer the deploy section)
+
+
+[Deploy]
+CMD (as administrator)
+CD E:\RmaBackendService_Acturial
+Rma.BackendService.Runner.exe -stop
+copy {deploy_package}\*.*
+Rma.BackendService.Runner.exe -start
+## verify the service started properly
+1. [PS] Get-Service | Where-Object {$_.Name -clike "Rma.Backend.Service_Acturial*"}
+2. #check the log
+notepad C:\Temp\rma\log_backendservice_actuarial.txt
+
+
+
+
